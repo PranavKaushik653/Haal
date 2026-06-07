@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgis/postgis:16-3.4
+    container_name: haal_postgres
+    environment:
+      POSTGRES_DB: haal_db
+      POSTGRES_USER: haal_user
+      POSTGRES_PASSWORD: anony@123
+    ports:
+      - "5432:5432"
+    volumes:
+      - haal_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U haal_user -d haal_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mailhog:                        # Local email catcher — see alerts without real SMTP
+    image: mailhog/mailhog
+    container_name: haal_mailhog
+    ports:
+      - "1025:1025"               # SMTP
+      - "8025:8025"               # Web UI — view emails at localhost:8025
+
+volumes:
+  haal_pgdata:
