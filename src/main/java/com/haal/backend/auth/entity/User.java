@@ -48,10 +48,12 @@ public class User {
     private boolean active = true;
 
     @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
+    @Column(name = "created_at", updatable = false, nullable = false,
+            columnDefinition = "TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP")
     private Instant createdAt;
 
     @UpdateTimestamp
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", nullable = false,
+            columnDefinition = "TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP")
     private Instant updatedAt;
 }
